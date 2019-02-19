@@ -1,0 +1,11 @@
+<form>
+    Add a new task:
+    <input id="newTaskName" type="text">
+    <input type="submit">
+</form>
+
+<ul>
+{{#each tasks}}
+    <li data-id="this._id"><input type="checkbox" {{#if this.isDone}}checked{{/if}}>{{this.name}}</li>
+{{/each}}
+</ul>
