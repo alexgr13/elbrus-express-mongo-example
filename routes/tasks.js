@@ -3,19 +3,19 @@ var router = express.Router();
 
 // define the home page route
 router.get('/', function(req, res) {
-    res.send('tasks get');
+    res.json({});
 });
 
 router.post('/', function(req, res) {
-    res.send('tasks post');
+    res.status(201).end()
 });
 
 router.put('/', function(req, res) {
-    res.send('tasks put');
+    res.status(200).end()
 });
 
 router.delete('/', function(req, res) {
-    res.send('tasks delete');
+    res.status(200).end()
 });
 
 module.exports = router;
