@@ -1,9 +1,14 @@
-var express = require('express')
-var morgan = require('morgan')
-var app = express()
-
+let express = require('express')
+let morgan = require('morgan')
+let app = express()
+let tasksRouter = require('./routes/tasks')
 
 app.use(morgan('dev'))
+app.use('/api/tasks', tasksRouter)
+
+app.get('/api/status', function (req, res) {
+    res.send('OK')
+});
 
 app.get('/', function (req, res) {
     res.send('Hello World!')
