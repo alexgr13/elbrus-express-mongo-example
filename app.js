@@ -11,7 +11,11 @@ app.use(morgan('dev'))
 app.use('/api/tasks', tasksRouter)
 
 app.get('/api/status', function (req, res) {
-    res.send('OK')
+    if (mongoose.connection.readyState === 1) {
+        res.type("text").send('OK')
+    } else {
+        res.code(500).send('Database connection error')
+    }
 });
 
 app.get('/', function (req, res) {
