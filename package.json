@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/alexgr13/elbrus-express-mongo-example/issues"
   },
-  "homepage": "https://github.com/alexgr13/elbrus-express-mongo-example#readme"
+  "homepage": "https://github.com/alexgr13/elbrus-express-mongo-example#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13",
+    "mongoose": "^5.4.14",
+    "morgan": "^1.9.1"
+  }
 }
