@@ -14,15 +14,30 @@ router.use(bodyParser.urlencoded({ extended: true }))
 router.get('/', function(req, res) {
     Task.find(function (err, tasks) {
         if (err) {
-            res.code(500).send(err)
+            return res.code(500).send(err)
         }
         res.json(tasks)
     })
 });
 
 router.post('/', upload.array(), function(req, res) {
-    console.log(req.body);
-    res.status(201).json(req.body);
+    if (!req.body.hasOwnProperty('name')) {
+        return res.status(400).json({'error': "Request must contain the 'name' field"})
+    }
+
+    if (req.body.name.length === 0) {
+        return res.status(400).json({'error': "The 'name' value must not be empty"})
+    }
+
+    let newTask = new Task({ name: req.body.name })
+
+    newTask.save(function (err, task) {
+        if (err) {
+            return res.status(400).json({'error': err})
+        }
+
+        res.status(201).json(task);
+    });
 });
 
 router.put('/', function(req, res) {
