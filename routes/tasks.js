@@ -1,6 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var Task = require('../models/task');
+let express = require('express')
+let Task = require('../models/task')
+let multer = require('multer')
+let bodyParser = require('body-parser')
+
+let router = express.Router()
+
+let upload = multer(); // for parsing multipart/form-data
+
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: true }))
 
 // define the home page route
 router.get('/', function(req, res) {
@@ -12,8 +20,9 @@ router.get('/', function(req, res) {
     })
 });
 
-router.post('/', function(req, res) {
-    res.status(201).end()
+router.post('/', upload.array(), function(req, res) {
+    console.log(req.body);
+    res.status(201).json(req.body);
 });
 
 router.put('/', function(req, res) {
