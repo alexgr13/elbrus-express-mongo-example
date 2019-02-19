@@ -1,11 +1,57 @@
-<form>
+<form id="newTaskForm">
     Add a new task:
     <input id="newTaskName" type="text">
     <input type="submit">
 </form>
 
 <ul>
-{{#each tasks}}
-    <li data-id="this._id"><input type="checkbox" {{#if this.isDone}}checked{{/if}}>{{this.name}}</li>
-{{/each}}
+    {{#each tasks}}
+        <li data-id="{{this._id}}"><input type="checkbox" {{#if this.isDone}}checked{{/if}}>
+            <input type="text" value="{{this.name}}">
+            <button>X</button>
+        </li>
+    {{/each}}
 </ul>
+
+<script>
+    let apiBasePath = "/api/tasks"
+    $("#newTaskForm").submit(function (event) {
+        event.preventDefault()
+
+        $.ajax({
+            url: apiBasePath,
+            method: "POST",
+            data: {name: $("#newTaskName").val()}
+        }).done(function () {
+            location.reload()
+        });
+    });
+
+    $("ul input[type=checkbox]").click(function (event) {
+        let target = $(event.target)
+        $.ajax({
+            url: apiBasePath + "/" + target.closest("li").data("id"),
+            method: "PUT",
+            data: {isDone: target.attr("checked") !== 'checked'}
+        });
+    });
+
+    $("ul input[type=text]").change(function (event) {
+        let target = $(event.target)
+        $.ajax({
+            url: apiBasePath + "/" + target.closest("li").data("id"),
+            method: "PUT",
+            data: {name: target.val()}
+        });
+    });
+
+    $("ul button").click(function (event) {
+        let target = $(event.target)
+        $.ajax({
+            url: apiBasePath + "/" + target.closest("li").data("id"),
+            method: "DELETE"
+        }).done(function () {
+            location.reload()
+        });
+    });
+</script>
