@@ -8,10 +8,10 @@ let router = express.Router()
 let upload = multer(); // for parsing multipart/form-data
 
 router.use(bodyParser.json())
-router.use(bodyParser.urlencoded({ extended: true }))
+router.use(bodyParser.urlencoded({extended: true}))
 
 // define the home page route
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
     Task.find(function (err, tasks) {
         if (err) {
             return res.code(500).send(err)
@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
     })
 });
 
-router.post('/', upload.array(), function(req, res) {
+router.post('/', upload.array(), function (req, res) {
     if (!req.body.hasOwnProperty('name')) {
         return res.status(400).json({'error': "Request must contain the 'name' field"})
     }
@@ -42,12 +42,30 @@ router.post('/', upload.array(), function(req, res) {
     });
 });
 
-router.put('/', function(req, res) {
-    res.status(200).end()
+router.put('/:id', function (req, res) {
+    Task.findByIdAndUpdate(req.params.id, req.body, function (err, task) {
+        if (err) {
+            return res.status(400).json({'error': err})
+        }
+        res.status(200).end();
+    })
 });
 
-router.delete('/', function(req, res) {
-    res.status(200).end()
+router.delete('/:id', function (req, res) {
+    if (!req.params.hasOwnProperty('id')) {
+        return res.status(400).json({'error': "Request must contain the 'id' field"})
+    }
+
+    if (req.params.id.length === 0) {
+        return res.status(400).json({'error': "The 'id' value must not be empty"})
+    }
+
+    Task.findByIdAndRemove(req.params.id, function (err, task) {
+        if (err) {
+            return res.status(400).json({'error': err})
+        }
+        res.status(200).end();
+    })
 });
 
 module.exports = router;
