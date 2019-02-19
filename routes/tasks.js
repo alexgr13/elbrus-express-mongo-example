@@ -29,13 +29,15 @@ router.post('/', upload.array(), function(req, res) {
         return res.status(400).json({'error': "The 'name' value must not be empty"})
     }
 
-    let newTask = new Task({ name: req.body.name })
+    let newTask = new Task({
+        name: req.body.name,
+        isDone: false,
+    })
 
     newTask.save(function (err, task) {
         if (err) {
             return res.status(400).json({'error': err})
         }
-
         res.status(201).json(task);
     });
 });

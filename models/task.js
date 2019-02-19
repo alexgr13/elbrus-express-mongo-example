@@ -1,8 +1,8 @@
 let mongoose = require('mongoose')
 
 var taskSchema = new mongoose.Schema({
-    name: String,
-    isDone: Boolean,
+    name: { type: String, required: true, unique: true },
+    isDone: { type: Boolean, required: true },
 });
 
 module.exports = mongoose.model('Task', taskSchema);
