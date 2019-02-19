@@ -24,6 +24,8 @@
             data: {name: $("#newTaskName").val()}
         }).done(function () {
             location.reload()
+        }).fail(function(e) {
+            alert( "error " + JSON.stringify(e) );
         });
     });
 
@@ -33,6 +35,8 @@
             url: apiBasePath + "/" + target.closest("li").data("id"),
             method: "PUT",
             data: {isDone: target.attr("checked") !== 'checked'}
+        }).fail(function(e) {
+            alert( "error " + JSON.stringify(e) );
         });
     });
 
@@ -42,6 +46,8 @@
             url: apiBasePath + "/" + target.closest("li").data("id"),
             method: "PUT",
             data: {name: target.val()}
+        }).fail(function(e) {
+            alert( "error " + JSON.stringify(e) );
         });
     });
 
@@ -52,6 +58,8 @@
             method: "DELETE"
         }).done(function () {
             location.reload()
+        }).fail(function(e) {
+            alert( "error " + JSON.stringify(e) );
         });
     });
 </script>
